@@ -30,7 +30,7 @@ if user_query:
     if score > 0.3:
         st.write("**Answer:**", df["Answers"][best_match])
         st.write(f"Confidence: {score:.2f}")
-        st.session_state.history.append(("Bot", df["answers"][best_match]))
+        st.session_state.history.append(("Bot", df["Answers"][best_match]))
 
 
     else:
