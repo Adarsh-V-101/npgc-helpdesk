@@ -8,7 +8,7 @@ df = pd.read_csv("college_faq.csv")
 
 # Vectorization
 vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df["question"])
+X = vectorizer.fit_transform(df["Question"])
 print(X)
 # # UI
 st.title("National Post Graduate College")
@@ -28,8 +28,8 @@ if user_query:
     score = similarity[0][best_match]
 
     if score > 0.3:
-        st.write("**Answer:**", df["answers"][best_match])
-        st.session_state.history.append(("Bot", df["answers"][best_match]))
+        st.write("**Answer:**", df["Answers"][best_match])
+        st.session_state.history.append(("Bot", df["Answers"][best_match]))
 
 
     else:
