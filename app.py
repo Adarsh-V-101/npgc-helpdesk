@@ -8,7 +8,7 @@ df = pd.read_csv("college_faq.csv")
 
 # Vectorization
 vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df["Questions"])
+X = vectorizer.fit_transform(df["Question"])
 
 # UI
 st.title("🎓 College Information Chatbot")
