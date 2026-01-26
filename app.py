@@ -2,9 +2,11 @@ import pandas as pd
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import random
 
 # Load data
-df = pd.read_csv("college_faq.csv")
+df = pd.read_csv("QnA.csv")
+df['Question'] = df["Question"].fillna('')
 
 # Vectorization
 vectorizer = TfidfVectorizer()
@@ -16,7 +18,6 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 user_query = st.text_input("Ask your question:")
-
 if user_query:
     st.session_state.history.append(("You:", user_query))
     user_vec = vectorizer.transform([user_query])
@@ -25,8 +26,21 @@ if user_query:
     score = similarity[0][best_match]
 
     if score > 0.3:
-        st.write("**Answer:**", df["Answers"][best_match])
-        st.session_state.history.append(("Bot", df["Answers"][best_match]))
+        randNum = random.randint(1,4)
+        match randNum:
+            case 1:
+                st.write("**Answer:**", df["Informational"][best_match])
+                st.session_state.history.append(("Bot", df["Informational"][best_match]))                       
+            case 2:
+                st.write("**Answer:**", df["Guidance oriented"][best_match])
+                st.session_state.history.append(("Bot", df["Guidance oriented"][best_match]))                       
+            case 3:
+                st.write("**Answer:**", df["Institutional"][best_match])
+                st.session_state.history.append(("Bot", df["Institutional"][best_match]))                       
+            case 4:
+                st.write("**Answer:**", df["Conversational"][best_match])
+                st.session_state.history.append(("Bot", df["Conversational"][best_match]))                       
+
 
     else:
         st.write("Sorry, I don't have that information right now.")
