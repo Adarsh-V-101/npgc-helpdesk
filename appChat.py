@@ -41,7 +41,8 @@ def chat():
 
     data = request.get_json()
     user_query = data.get("message", "").strip()
-
+    user_query = user_query.lower()
+    
     if not user_query:
         return jsonify({"reply": "Please ask a question."})
 
