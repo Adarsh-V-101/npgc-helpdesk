@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NPGC Helpdesk</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='appstyle.css') }}">
+</head>
+
+<body>
+    <!-- headers -->
+    <header class="header">
+        <img src="{{ url_for('static', filename='npgc logo.jpeg') }}" class="logo">
+        <div class="title">NPGC Helpdesk</div>
+        <button id="feedbackBtn" class="feedback-btn">Feedback</button>
+    </header>
+
+    <!-- Chat area -->
+    <div class="chat-container" id="chatContainer"></div>
+
+    <!-- Input -->
+    <div class="input-wrapper" id="inputWrapper">
+        <input type="text" id="userInput" placeholder="Ask something">
+        <button class="send-btn">➤</button>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h3>Send your Feedback</h3>
+            <textarea id="feedbackText" placeholder="Write your feedback..."></textarea>
+            <button id="submitFeedback">Submit</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='appscript.js') }}"></script>
+</body>
+
+</html>

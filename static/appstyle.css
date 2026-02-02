@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: white;
+}
+
+/* Header */
+.header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.logo {
+    width: 36px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.feedback-btn {
+    margin-left: auto;
+    background: #51afd4;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* typing animation and loading dots */
+
+.typing {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: #e6e6e6;
+    width: fit-content;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #555;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: .2;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .2;
+    }
+}
+
+/* chat container */
+.chat-container {
+    position: fixed;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 640px;
+    bottom: 90px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Chat bubbles */
+.chat-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    max-width: 70%;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+.user {
+    align-self: flex-end;
+    background: #51afd4;
+    color: white;
+}
+
+.bot {
+    align-self: flex-start;
+    background: #e6e6e6;
+    color: black;
+}
+
+/* Input box */
+.input-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 640px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 3px solid #e0e0e0;
+    border-radius: 999px;
+    background: #fff;
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+}
+
+.send-btn {
+    background: #51afd4;
+    color: rgb(0, 0, 0);
+    border: none;
+    width: 40px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    margin: 120px auto;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#feedbackText {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+}
+
+#submitFeedback {
+    background: #51afd4;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
