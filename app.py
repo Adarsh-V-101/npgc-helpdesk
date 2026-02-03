@@ -12,7 +12,7 @@ CORS(app)
 
 # loading files
 base_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(base_dir, "QnA.csv")
+csv_path = os.path.join(base_dir, "database.csv")
 
 df = pd.read_csv(csv_path)
 
@@ -53,15 +53,27 @@ def chat():
 
     # contexaat handling
     if score > 0.3:
-        last_best_match = best_match
+        # last_best_match = best_match
         selected_index = best_match
-    else:
-        if last_best_match is not None:
-            selected_index = last_best_match
+         # random answer
+        rand_num = random.randint(1, 4)
+
+        if rand_num == 1:
+            answer = df["Informational"][selected_index]
+        elif rand_num == 2:
+            answer = df["Guidance oriented"][selected_index]
+        elif rand_num == 3:
+            answer = df["Institutional"][selected_index]
         else:
-            return jsonify({
-                "reply": "Sorry, I couldn't understand that. Could you please rephrase?"
-            })
+            answer = df["Conversational"][selected_index]
+
+    # else:
+    #     if last_best_match is not None:
+    #         selected_index = last_best_match
+    else:
+        return jsonify({
+            "reply": "Sorry, I couldn't understand that. Could you please rephrase?"
+        })
 
     # random answer
     rand_num = random.randint(1, 4)
@@ -82,6 +94,10 @@ def chat():
         or str(answer).strip() == ""
     ):
         answer = "This information is currently unavailable. Please ask something else."
+
+    # print(f"User query: {user_query}")
+    # print(selected_index)
+    # print(f"Selected answer: {answer}")
 
     return jsonify({"reply": answer})
 
