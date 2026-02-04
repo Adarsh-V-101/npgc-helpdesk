@@ -1,4 +1,4 @@
-# ML Chatbot (Prototype)
+# ML Chatbot 
 
 A simple **Machine Learning + NLP based chatbot prototype** built in Python.
 This project demonstrates how a chatbot can answer user queries using a **QnA dataset** and basic NLP techniques, wrapped with a minimal web interface.
