@@ -160,9 +160,17 @@ const feedbackModal = document.getElementById("feedbackModal");
 const closeModal = document.getElementById("closeModal");
 const submitFeedback = document.getElementById("submitFeedback");
 
+// feedbackBtn.addEventListener("click", () => {
+//     feedbackModal.style.display = "block";
+// });
+
 feedbackBtn.addEventListener("click", () => {
-    feedbackModal.style.display = "block";
+    window.open(
+        "https://docs.google.com/forms/d/e/1FAIpQLSe2yn9_WaIjZmkVbAvpuLEY70YELvEoOaVmfbBYSC7aNkmzJA/viewform",
+        "_blank"
+    );
 });
+
 
 closeModal.addEventListener("click", () => {
     feedbackModal.style.display = "none";
@@ -174,19 +182,21 @@ window.addEventListener("click", (e) => {
     }
 });
 
-submitFeedback.addEventListener("click", () => {
-    const text = document.getElementById("feedbackText").value.trim();
-    if (!text) return;
 
-    fetch("/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ feedback: text })
-    })
-        .then(res => res.json())
-        .then(() => {
-            alert("Thank you for your feedback!");
-            document.getElementById("feedbackText").value = "";
-            feedbackModal.style.display = "none";
-        });
-});
+
+// submitFeedback.addEventListener("click", () => {
+//     const text = document.getElementById("feedbackText").value.trim();
+//     if (!text) return;
+
+//     fetch("/feedback", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ feedback: text })
+//     })
+//         .then(res => res.json())
+//         .then(() => {
+//             alert("Thank you for your feedback!");
+//             document.getElementById("feedbackText").value = "";
+//             feedbackModal.style.display = "none";
+//         });
+// });
