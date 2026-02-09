@@ -94,7 +94,7 @@ def chat():
         answer = df["Institutional"][best_match]
     else:
         answer = df["Conversational"][best_match]
-
+    print("Selected answer:", answer)  # for debugging
     # for empty answers
     if (
         answer is None
