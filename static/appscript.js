@@ -4,6 +4,7 @@ const chatContainer = document.getElementById("chatContainer");
 const micBtn = document.getElementById("micBtn");
 
 
+
 /* inserting random welcome text */
 const welcomeMessages = [
     "Hey, Ready to dive in?",
@@ -225,6 +226,7 @@ if (SpeechRecognition) {
     recognition.interimResults = false;
 
     micBtn.addEventListener("click", () => {
+        suggestionBox.innerHTML = "";
         if (!isListening) {
             recognition.start();
             micBtn.classList.add("mic-listening");
