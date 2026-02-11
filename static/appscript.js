@@ -1,6 +1,8 @@
 const input = document.getElementById("userInput");
 const sendBtn = document.querySelector(".send-btn");
 const chatContainer = document.getElementById("chatContainer");
+const micBtn = document.getElementById("micBtn");
+
 
 /* inserting random welcome text */
 const welcomeMessages = [
@@ -102,7 +104,7 @@ function typeMessage(text) {
     chatContainer.appendChild(bubble);
 
     let i = 0;
-    const speed = 25; // typing speed
+    const speed = 10; // typing speed
 
     const interval = setInterval(() => {
         bubble.textContent += text.charAt(i);
@@ -114,6 +116,45 @@ function typeMessage(text) {
         }
     }, speed);
 }
+
+// suggest questions
+const suggestedQuestions = [
+    "Who is the principal of the college",
+    "What companies visit for campus placements?",
+    "Can I pay my fees online",
+    "List the PG course I can apply for",
+    "Does npgc have study centers for distance learning",
+    "Is there any specialization course I can apply for",
+    "what documents are required for admission?",
+    "How to see/check result on website",
+    "What is the exam schedule/timetable?",
+    "What are the office working hours",
+    "how can i borrow books from library?",
+    "what are the sports facilities in college?"
+];
+const suggestionBox = document.getElementById("suggestions");
+
+function showSuggestions() {
+    suggestionBox.innerHTML = "";
+    const shuffled = suggestedQuestions.sort(() => 0.5 - Math.random());
+    shuffled.slice(0, 4).forEach(q => {
+        const div = document.createElement("div");
+        div.className = "suggestion";
+        div.textContent = q;
+        div.onclick = () => {
+            suggestionBox.innerHTML = "";
+            input.value = q;
+            sendMessage();
+        };
+        suggestionBox.appendChild(div);
+    });
+}
+
+showSuggestions();
+input.addEventListener("focus", () => {
+    suggestionBox.innerHTML = "";
+});
+
 
 /* feedback box*/
 const feedbackBtn = document.getElementById("feedbackBtn");
@@ -143,11 +184,69 @@ window.addEventListener("click", (e) => {
     }
 });
 
-submitFeedback.addEventListener("click", () => {
-    const text = document.getElementById("feedbackText").value.trim();
-    if (text) {
-        alert("Thank you for your feedback!");
-        document.getElementById("feedbackText").value = "";
-    }
-    feedbackModal.style.display = "none";
-});
+
+
+// submitFeedback.addEventListener("click", () => {
+//     const text = document.getElementById("feedbackText").value.trim();
+//     if (!text) return;
+
+//     fetch("/feedback", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ feedback: text })
+//     })
+//         .then(res => res.json())
+//         .then(() => {
+//             alert("Thank you for your feedback!");
+//             document.getElementById("feedbackText").value = "";
+//             feedbackModal.style.display = "none";
+//         });
+// });
+
+// mic visibility logic
+// input.addEventListener("input", () => {
+//     if (input.value.trim() !== "") {
+//         micBtn.classList.add("mic-hidden");
+//     } else {
+//         micBtn.classList.remove("mic-hidden");
+//     }
+// });
+
+// speech recognition
+const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let isListening = false;
+let recognition;
+
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = "hi-IN";
+    recognition.interimResults = false;
+
+    micBtn.addEventListener("click", () => {
+        if (!isListening) {
+            recognition.start();
+            micBtn.classList.add("mic-listening");
+            isListening = true;
+        } else {
+            recognition.stop();
+            micBtn.classList.remove("mic-listening");
+            isListening = false;
+        }
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        input.value = transcript;
+    };
+
+    recognition.onend = () => {
+        micBtn.classList.remove("mic-listening");
+        isListening = false;
+    };
+
+} else {
+    micBtn.style.display = "none";
+}
+

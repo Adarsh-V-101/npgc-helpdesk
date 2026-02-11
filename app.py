@@ -38,6 +38,7 @@ def chat():
 
     data = request.get_json()
     user_query = apiCall.api_call(data.get("message", ""))
+    print(f"User query: {user_query}")
     # user_query = data.get("message", "").strip()
     user_query = user_query.lower()
     
@@ -48,9 +49,9 @@ def chat():
     similarity = cosine_similarity(user_vec, X)
     best_match = similarity.argmax()
     score = similarity[0][best_match]
-    print(similarity[0])
-    print(best_match)
-    print(score)
+    # print(similarity[0])
+    # print(best_match)
+    # print(score)
 
     if score > 0.3:
         selected_index = best_match

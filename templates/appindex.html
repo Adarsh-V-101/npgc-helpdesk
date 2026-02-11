@@ -7,6 +7,7 @@
     <title>NPGC Helpdesk</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='appstyle.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -20,11 +21,28 @@
     <!-- Chat area -->
     <div class="chat-container" id="chatContainer"></div>
 
+    <!-- suggest questions -->
+    <div id="suggestions" class="suggestions"></div>
+
+
     <!-- Input -->
     <div class="input-wrapper" id="inputWrapper">
         <input type="text" id="userInput" placeholder="Ask something">
-        <button class="send-btn">➤</button>
+
+        <button id="micBtn" class="mic-btn">
+            <span class="material-icons mic-icon">mic</span>
+
+            <div class="wave">
+                <span></span><span></span><span></span>
+            </div>
+        </button>
+
+        <button class="send-btn" type="button">
+            <span class="material-icons">send</span>
+        </button>
+
     </div>
+
 
     <!-- Feedback Modal -->
     <div id="feedbackModal" class="modal">
