@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import random
 import math
+import apiCall
 
 app = Flask(__name__)
 CORS(app)
@@ -36,7 +37,8 @@ def home():
 def chat():
 
     data = request.get_json()
-    user_query = data.get("message", "").strip()
+    user_query = apiCall.api_call(data.get("message", ""))
+    # user_query = data.get("message", "").strip()
     user_query = user_query.lower()
     
     if not user_query:
@@ -46,9 +48,9 @@ def chat():
     similarity = cosine_similarity(user_vec, X)
     best_match = similarity.argmax()
     score = similarity[0][best_match]
-    # print(similarity[0])
-    # print(best_match)
-    # print(score)
+    print(similarity[0])
+    print(best_match)
+    print(score)
 
     if score > 0.3:
         selected_index = best_match
