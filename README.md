@@ -75,7 +75,7 @@ pip install -r requirements.txt
 ### 4️⃣ Run the application
 
 ```bash
-python appChat.py
+python app.py
 ```
 
 Open your browser and visit the local server URL shown in the terminal.
