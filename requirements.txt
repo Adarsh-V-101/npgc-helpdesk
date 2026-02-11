@@ -3,3 +3,5 @@ pandas
 scikit-learn
 flask
 flask-cors
+bytez
+dotenv
