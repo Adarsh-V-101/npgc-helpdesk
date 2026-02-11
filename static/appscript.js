@@ -221,7 +221,7 @@ let recognition;
 
 if (SpeechRecognition) {
     recognition = new SpeechRecognition();
-    recognition.lang = "hi-IN";
+    recognition.lang = "en-IN";
     recognition.interimResults = false;
 
     micBtn.addEventListener("click", () => {
