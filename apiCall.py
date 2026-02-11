@@ -1,5 +1,5 @@
+from bytez import Bytez
 import os
-import requests
 from dotenv import load_dotenv
 
 def api_call(user_input):
