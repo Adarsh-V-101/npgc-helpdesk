@@ -2,87 +2,85 @@ import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import random
 import math
-import apiCall
 
 app = Flask(__name__)
 CORS(app)
 
-# loading files
+# Load dataset
 base_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(base_dir, "database.csv")
 
 df = pd.read_csv(csv_path)
-    
-# handle NaN in all required columns
-df["Question"] = df["Question"].fillna("")
-df["Question"] = df["Question"].str.lower()
+
+# Clean data
+df["Question"] = df["Question"].fillna("").str.lower()
 df["Informational"] = df["Informational"].fillna("")
 df["Guidance oriented"] = df["Guidance oriented"].fillna("")
 df["Institutional"] = df["Institutional"].fillna("")
 df["Conversational"] = df["Conversational"].fillna("")
 
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df["Question"])
+# Load embedding model
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# routes
+# Precompute question embeddings
+questions = df["Question"].tolist()
+question_embeddings = model.encode(questions)
+
+
 @app.route("/")
 def home():
     return render_template("appindex.html")
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
 
     data = request.get_json()
-    user_query = apiCall.api_call(data.get("message", ""))
-    print(f"User query: {user_query}")
-    # user_query = data.get("message", "").strip()
-    user_query = user_query.lower()
-    
+    user_query = data.get("message", "").strip().lower()
+
     if not user_query:
         return jsonify({"reply": "Please ask a question."})
 
-    user_vec = vectorizer.transform([user_query])
-    similarity = cosine_similarity(user_vec, X)
-    best_match = similarity.argmax()
-    score = similarity[0][best_match]
-    # print(similarity[0])
-    # print(best_match)
-    # print(score)
+    # Encode query
+    query_embedding = model.encode([user_query])
 
-    if score > 0.3:
-        selected_index = best_match
-         # random answer
-        rand_num = random.randint(1, 4)
+    # Compute similarity
+    similarities = cosine_similarity(query_embedding, question_embeddings)[0]
 
-        if rand_num == 1:
-            answer = df["Informational"][selected_index]
-        elif rand_num == 2:
-            answer = df["Guidance oriented"][selected_index]
-        elif rand_num == 3:
-            answer = df["Institutional"][selected_index]
-        else:
-            answer = df["Conversational"][selected_index]
+    # Get top 3 matches
+    top_indices = similarities.argsort()[-3:][::-1]
+    top_score = similarities[top_indices[0]]
+    second_score = similarities[top_indices[1]]
 
-    else:
+    # Confidence logic
+    if top_score < 0.55:
         return jsonify({
-            "reply": "Sorry, I couldn't understand that. Could you please rephrase?"
+            "reply": "I couldn't find a confident match. Are you asking about admissions, scholarships, exams, or hostel services?"
         })
 
-    # for empty answers
-    if (
-        answer is None
-        or isinstance(answer, float) and math.isnan(answer)
-        or str(answer).strip() == ""
-    ):
-        answer = "This information is currently unavailable. Please ask something else."
+    if abs(top_score - second_score) < 0.05:
+        return jsonify({
+            "reply": "Your question seems ambiguous. Could you clarify a bit more?"
+        })
 
-    # print(f"User query: {user_query}")
-    # print(selected_index)
-    # print(f"Selected answer: {answer}")
+    selected_index = top_indices[0]
+    row = df.iloc[selected_index]
+
+    # Deterministic answer priority
+    if row["Informational"]:
+        answer = row["Informational"]
+    elif row["Guidance oriented"]:
+        answer = row["Guidance oriented"]
+    elif row["Institutional"]:
+        answer = row["Institutional"]
+    else:
+        answer = row["Conversational"]
+
+    if not answer.strip():
+        answer = "This information is currently unavailable. Please contact administration."
 
     return jsonify({"reply": answer})
 

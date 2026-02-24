@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import random
 
 # Load data
-df = pd.read_csv("QnA.csv")
+df = pd.read_csv("database.csv")
 df['Question'] = df["Question"].fillna('')
 
 # Vectorization
