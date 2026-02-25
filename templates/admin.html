@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<h2>Pending Questions</h2>
+
+{% for q in questions %}
+    <form action="/admin/submit" method="POST">
+        <p><strong>{{ q }}</strong></p>
+        <input type="text" name="question" value="{{ q }}">
+
+        <input type="text" name="informational" placeholder="Informational Answer"><br>
+        <input type="text" name="guidance" placeholder="Guidance Answer"><br>
+        <input type="text" name="institutional" placeholder="Institutional Answer"><br>
+        <input type="text" name="conversational" placeholder="Conversational Answer"><br><br>
+
+        <button type="submit">Submit Answer</button>
+        <hr>
+    </form>
+{% endfor %}
+
+</body>
+</html>

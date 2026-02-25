@@ -4,12 +4,15 @@ from dotenv import load_dotenv
 
 def api_call(user_input):
     load_dotenv()
-    print(user_input)
+    # print(user_input)
     key = os.getenv("API_KEY")
     sdk = Bytez(key)
 
     model = sdk.model("openai/gpt-4o")
-    userquery = f"filter the sentence,fix the spellings and give the exact intent of user i.e., keywords so that i retreive informatin from my db (just provide keywords in english and not the whole sentence), sentence=[ {user_input} ]"
+    userquery = f'''Fix spelling. Extract core intent keywords for DB retrieval.
+    Return only keywords in English with 2 common synonyms each.
+    Input: {user_input}'''
+
     results = model.run([
     {
         "role": "user",
