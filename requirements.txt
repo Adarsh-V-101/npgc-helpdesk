@@ -1,8 +1,6 @@
-numpy
+fastapi
+uvicorn
 pandas
-scikit-learn
-flask
-flask-cors
-bytez
-dotenv
-sentence_transformers
+sentence-transformers
+faiss-cpu
+python-dotenv
