@@ -109,8 +109,8 @@ function typeMessage(text) {
     <span class="material-icons action-icon speak-btn">volume_up</span>
     <span class="material-icons action-icon copy-btn">content_copy</span>
     <span class="material-icons action-icon regen-btn">autorenew</span>
-    <a href="#"> Help full |</a>
-    <a href="#"> not Help full |</a>
+    <a href="#"> Help-ful |</a>
+    <a href="#"> Not Help-ful</a>
 `;
 
     bubble.appendChild(textDiv);
