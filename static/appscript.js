@@ -424,25 +424,12 @@ document.getElementById("downloadChat").addEventListener("click", () => {
 
     const element = document.getElementById("chatContainer");
 
-    if (!element) {
-        console.error("chatContainer not found");
-        return;
-    }
-
-    if (!element.innerText.trim()) {
+    if (!element || !element.innerText.trim()) {
         alert("No chat content to download.");
         return;
     }
 
-    const opt = {
-        margin: 0.5,
-        filename: "NPGC_Chat.pdf",
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
-    };
-
-    html2pdf().set(opt).from(element).save();
+    html2pdf().from(element).save("NPGC_Chat.pdf");
 });
 
 //    const element = document.getElementById("chatContainer");
