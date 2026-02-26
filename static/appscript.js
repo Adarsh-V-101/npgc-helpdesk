@@ -421,6 +421,38 @@ document.addEventListener("click", (e) => {
 });
 
 document.getElementById("downloadChat").addEventListener("click", () => {
+    const chatContainer = document.getElementById("chatContainer");
+
+    if (!chatContainer) {
+        console.error("chatContainer not found");
+        return;
+    }
+
+    // Get only visible text
+    const chatText = chatContainer.innerText.trim();
+
+    if (!chatText) {
+        alert("No chat content to download.");
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 10;
+
+    // Split text properly across pages
+    const lines = doc.splitTextToSize(chatText, pageWidth - margin * 2);
+
+    doc.text(lines, margin, margin);
+    doc.save("NPGC_Chat_Text.pdf");
+
+})
 
 //    const element = document.getElementById("chatContainer");
 
@@ -465,32 +497,33 @@ document.getElementById("downloadChat").addEventListener("click", () => {
 //     .save()
 //     .then(() => {
 //         document.body.removeChild(clone);
+// //     });
+    //==========================================================================================
+//      const element = document.getElementById("chatContainer");
+
+//     // clone node
+//     const clone = element.cloneNode(true);
+
+//     clone.style.position = "static";
+//     clone.style.height = "auto";
+//     clone.style.maxHeight = "none";
+//     clone.style.overflow = "visible";
+
+//     document.body.appendChild(clone);
+
+//     const opt = {
+//         margin: 0.5,
+//         filename: 'NPGC_Chat.pdf',
+//         image: { type: 'jpeg', quality: 0.98 },
+//         html2canvas: { scale: 1 },
+//         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+//     };
+
+//     html2pdf().set(opt).from(clone).save().then(() => {
+//         document.body.removeChild(clone);
 //     });
-     const element = document.getElementById("chatContainer");
 
-    // clone node
-    const clone = element.cloneNode(true);
-
-    clone.style.position = "static";
-    clone.style.height = "auto";
-    clone.style.maxHeight = "none";
-    clone.style.overflow = "visible";
-
-    document.body.appendChild(clone);
-
-    const opt = {
-        margin: 0.5,
-        filename: 'NPGC_Chat.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 1 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(clone).save().then(() => {
-        document.body.removeChild(clone);
-    });
-
-});
+// });
 
 
 document.getElementById("adminPortal").addEventListener("click", () => {
