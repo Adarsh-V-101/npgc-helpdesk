@@ -422,31 +422,50 @@ document.addEventListener("click", (e) => {
 
 document.getElementById("downloadChat").addEventListener("click", () => {
 
-    const element = document.getElementById("chatContainer");
+   const element = document.getElementById("chatContainer");
 
-    // clone node
-    const clone = element.cloneNode(true);
+// Clone
+const clone = element.cloneNode(true);
 
-    clone.style.position = "static";
-    clone.style.height = "auto";
-    clone.style.maxHeight = "none";
-    clone.style.overflow = "visible";
+// Force full expansion
+clone.style.position = "absolute";
+clone.style.left = "-9999px";
+clone.style.height = "auto";
+clone.style.maxHeight = "none";
+clone.style.overflow = "visible";
 
-    document.body.appendChild(clone);
+// Remove internal scroll if exists
+clone.querySelectorAll("*").forEach(el => {
+    el.style.overflow = "visible";
+    el.style.maxHeight = "none";
+});
 
-    const opt = {
-        margin: 0.5,
-        filename: 'NPGC_Chat.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
+document.body.appendChild(clone);
 
-    html2pdf().set(opt).from(clone).save().then(() => {
+const opt = {
+    margin: 0.5,
+    filename: "NPGC_Chat.pdf",
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: { 
+        scale: 2, 
+        scrollY: 0,
+        useCORS: true
+    },
+    jsPDF: { 
+        unit: "in", 
+        format: "a4", 
+        orientation: "portrait" 
+    },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+};
+
+html2pdf()
+    .set(opt)
+    .from(clone)
+    .save()
+    .then(() => {
         document.body.removeChild(clone);
     });
-
-});
 
 document.getElementById("adminPortal").addEventListener("click", () => {
     window.location.href = "/admin";
