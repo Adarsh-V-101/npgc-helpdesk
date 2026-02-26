@@ -94,7 +94,7 @@ def chat():
 
     return jsonify({"reply": answer})
 
-@app.route("/admin")
+@app.route("/feedback")
 def admin_panel():
     feedback_path = os.path.join(base_dir, "appfeedback.csv")
 
