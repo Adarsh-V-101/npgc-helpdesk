@@ -1,26 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Admin Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css') }}">
 </head>
+
 <body>
 
-<h2>Pending Questions</h2>
+    <header class="header">
+        <div class="logo">Helpdesk Admin Portal</div>
+        <button class="logout-btn">Logout</button>
+    </header>
 
-{% for q in questions %}
-    <form action="/admin/submit" method="POST">
-        <p><strong>{{ q }}</strong></p>
-        <input type="text" name="question" value="{{ q }}">
+    <div class="layout">
 
-        <input type="text" name="informational" placeholder="Informational Answer"><br>
-        <input type="text" name="guidance" placeholder="Guidance Answer"><br>
-        <input type="text" name="institutional" placeholder="Institutional Answer"><br>
-        <input type="text" name="conversational" placeholder="Conversational Answer"><br><br>
+        <!-- Add Q&A -->
+        <section class="card">
+            <h2>Add Question & Answer</h2>
 
-        <button type="submit">Submit Answer</button>
-        <hr>
-    </form>
-{% endfor %}
+            <label>Question</label>
+            <textarea id="question" placeholder="Enter Question"></textarea>
 
+            <label>Answer</label>
+            <textarea id="answer" placeholder="Enter Answer"></textarea>
+
+            <button class="primary-btn" onclick="addQA()">Add to Database</button>
+        </section>
+
+        <!-- Q&A Database -->
+        <section class="card">
+            <h2>Q & A Database</h2>
+            <div class="table-container">
+                <table id="qaTable">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Feedback Database -->
+        <section class="card">
+            <h2>Feedback Database</h2>
+            <div class="table-container">
+                <table id="feedbackTable">
+                    <thead>
+                        <tr>
+                            <th>Feedback Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginstyle.css') }}">
 </body>
+
 </html>
