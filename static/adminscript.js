@@ -1,6 +1,6 @@
 // Load Q&A from backend
 function loadQADatabase() {
-    fetch("/get-qa")   // later Flask route
+    fetch("/admin/submit")   // later Flask route
         .then(res => res.json())
         .then(data => {
             const tbody = document.querySelector("#qaTable tbody");
