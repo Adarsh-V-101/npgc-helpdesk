@@ -421,38 +421,29 @@ document.addEventListener("click", (e) => {
 });
 
 document.getElementById("downloadChat").addEventListener("click", () => {
-    const chatContainer = document.getElementById("chatContainer");
 
-    if (!chatContainer) {
+    const element = document.getElementById("chatContainer");
+
+    if (!element) {
         console.error("chatContainer not found");
         return;
     }
 
-    // Get only visible text
-    const chatText = chatContainer.innerText.trim();
-
-    if (!chatText) {
+    if (!element.innerText.trim()) {
         alert("No chat content to download.");
         return;
     }
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4"
-    });
+    const opt = {
+        margin: 0.5,
+        filename: "NPGC_Chat.pdf",
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+    };
 
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const margin = 10;
-
-    // Split text properly across pages
-    const lines = doc.splitTextToSize(chatText, pageWidth - margin * 2);
-
-    doc.text(lines, margin, margin);
-    doc.save("NPGC_Chat_Text.pdf");
-
-})
+    html2pdf().set(opt).from(element).save();
+});
 
 //    const element = document.getElementById("chatContainer");
 
