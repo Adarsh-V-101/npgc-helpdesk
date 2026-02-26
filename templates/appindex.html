@@ -1,60 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NPGC Helpdesk</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='appstyle.css') }}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Admin Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminstyle.css') }}">
 </head>
 
 <body>
-    <!-- headers -->
+
     <header class="header">
-        <img src="{{ url_for('static', filename='npgclogo.jpeg') }}" class="logo">
-        <div class="title">NPGC Helpdesk</div>
-        <button id="feedbackBtn" class="feedback-btn">Feedback</button>
+        <div class="logo">Helpdesk Admin Portal</div>
+        <button class="logout-btn">Logout</button>
     </header>
 
-    <!-- Chat area -->
-    <div class="chat-container" id="chatContainer"></div>
+    <div class="layout">
 
-    <!-- suggest questions -->
-    <div id="suggestions" class="suggestions"></div>
+        <!-- Add Q&A -->
+        <section class="card">
+            <h2>Add Question & Answer</h2>
 
+            <label>Question</label>
+            <textarea id="question" placeholder="Enter Question"></textarea>
 
-    <!-- Input -->
-    <div class="input-wrapper" id="inputWrapper">
-        <input type="text" id="userInput" placeholder="Ask something">
+            <label>Answer</label>
+            <textarea id="answer" placeholder="Enter Answer"></textarea>
 
-        <button id="micBtn" class="mic-btn">
-            <span class="material-icons mic-icon">mic</span>
+            <button class="primary-btn" onclick="addQA()">Add to Database</button>
+        </section>
 
-            <div class="wave">
-                <span></span><span></span><span></span>
+        <!-- Q&A Database -->
+        <section class="card">
+            <h2>Q & A Database</h2>
+            <div class="table-container">
+                <table id="qaTable">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
-        </button>
+        </section>
 
-        <button class="send-btn" type="button">
-            <span class="material-icons">send</span>
-        </button>
+        <!-- Feedback Database -->
+        <section class="card">
+            <h2>Feedback Database</h2>
+            <div class="table-container">
+                <table id="feedbackTable">
+                    <thead>
+                        <tr>
+                            <th>Feedback Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
     </div>
 
-
-    <!-- Feedback Modal -->
-    <div id="feedbackModal" class="modal">
-        <div class="modal-content">
-            <span id="closeModal" class="close">&times;</span>
-            <h3>Send your Feedback</h3>
-            <textarea id="feedbackText" placeholder="Write your feedback..."></textarea>
-            <button id="submitFeedback">Submit</button>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='appscript.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginstyle.css') }}">
 </body>
 
 </html>
